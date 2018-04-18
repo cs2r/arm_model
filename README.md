@@ -2,14 +2,14 @@
 
 this package required:
 
-  controller_manager
+#  controller_manager
     sudo apt-get install ros-kinetic-controller-manager
   
-  gazebo-ros-control
+#  gazebo-ros-control
     sudo apt-get install ros-kinetic-gazebo-ros-control
  
-  joint_state_controller
+#  joint_state_controller
     sudo apt-get install ros-kinetic-joint-state-controller
   
-  position-controllers
+#  position-controllers
     sudo apt-get install ros-kinetic-position-controllers
