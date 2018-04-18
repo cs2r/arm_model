@@ -1,0 +1,39 @@
+hek:
+   # Publish all joint states -----------------------------------
+   joint_state_controller:
+     type: joint_state_controller/JointStateController
+     publish_rate: 50
+
+   # Position Controllers ---------------------------------------
+   shoulder_joint_position_controller:
+     type: position_controllers/JointPositionController
+     joint: shoulder
+     pid: {p: 3.0, i: 1.0, d: 1.0}
+
+   elbow_joint_position_controller:
+     type: position_controllers/JointPositionController
+     joint: elbow
+     pid: {p: 3.0, i: 1.0, d: 1.0}
+
+   wrist_pitch_joint_position_controller:
+     type: position_controllers/JointPositionController
+     joint: wrist_pitch
+     pid: {p: 3.0, i: 1.0, d: 1.0}
+
+   wrist_rot_joint_position_controller:
+     type: position_controllers/JointPositionController
+     joint: wrist_rot
+     pid: {p: 3.0, i: 1.0, d: 1.0}
+
+   grip_joint_position_controller:
+     type: position_controllers/JointPositionController
+     joint: grip
+     pid: {p: 3.0, i: 1.0, d: 1.0}
+
+   grip_mimic_joint_position_controller:
+     type: position_controllers/JointPositionController
+     joint: grip_mimic
+     pid: {p: 3.0, i: 1.0, d: 1.0}
+
+
+

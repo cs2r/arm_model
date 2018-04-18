@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<robot name="hek">
+
+  <link name="world"/>
+
+  <link name="base_footprint">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.2"/>
+        <inertia ixx="0.02" ixy="0.0" ixz="0.0" iyy="0.02" iyz="0.0" izz="0.02"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hekateros_desc/stl/hek_4L_1.0/base.stl" 
+              scale="0.001 0.001 0.001"
+        />
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.7"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base_footprint"/>
+  </joint>
+
+  <link name="upper_arm">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 0.02 0.18" rpy="1.5705 1.5705 -1.5705"/>
+      <geometry>
+        <mesh filename="package://hekateros_desc/stl/hek_4L_1.0/upper_arm.stl" 
+              scale="0.001 0.001 0.001"
+        />
+      </geometry>
+      <material name="red">
+        <color rgba="0.8 0 0 0.9"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="forearm">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0. 0.0 0.03" rpy="03.1415 0 1.5705"/>
+      <geometry>
+        <mesh filename="package://hekateros_desc/stl/hek_4L_1.0/forearm.stl" 
+              scale="0.001 0.001 0.001"
+        />
+      </geometry>
+      <material name="red">
+        <color rgba="0.8 0 0 0.9"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="wrist_link">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.0 0 -0.017" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hekateros_desc/stl/hek_4L_1.0/wrist.stl" 
+              scale="0.001 0.001 0.001"
+        />
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.9"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="tool_zero">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.002" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0" izz="0.002"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0.06 0" rpy="3.14159 0 0"/>
+      <geometry>
+        <mesh filename="package://hekateros_desc/stl/hek_4L_1.0/tool_zero.stl" 
+              scale="0.001 0.001 0.001"
+        />
+      </geometry>
+      <material name="red">
+        <color rgba="0.8 0 0 0.9"/>
+      </material>
+    </visual>
+  </link>
+
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/hek</robotNamespace>
+    </plugin>
+  </gazebo>
+
+
+
+
+  <joint name="shoulder" type="revolute">
+    <origin xyz="0.23 -0.04 0.11" rpy="0 0 0"/>
+    <parent link="base_footprint"/>
+    <child link="upper_arm"/>
+    <limit effort="100" velocity="1.0" lower="-1.57" upper="1.57" />
+  </joint>
+
+  <transmission name="shoulder_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="shoulder_motor">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="shoulder">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <joint name="elbow" type="revolute">
+    <origin xyz="-0.015 0.0 0.405" rpy="0 0 0"/>
+    <parent link="upper_arm"/>
+    <child link="forearm"/>
+    <limit effort="100" velocity="1.0" lower="-1.9" upper="1.9" />
+  </joint>
+
+  <transmission name="elbow_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="elbow_motor">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="elbow">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <joint name="wrist_pitch" type="revolute">
+    <origin xyz="-0.005 0 0.40" rpy="0 0 0"/>
+    <parent link="forearm"/>
+    <child link="wrist_link"/>
+    <limit effort="100" velocity="1.0" lower="-1.57" upper="1.57" />
+  </joint>
+
+  <transmission name="wrist_pitch_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="wrist_pitch_motor">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="wrist_pitch">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <joint name="wrist_rot" type="continuous">
+    <origin xyz="0 0 0.025" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="wrist_link"/>
+    <child link="tool_zero"/>
+
+    <limit effort="100" velocity="1.0" lower="-1.57" upper="1.57" />
+  </joint>
+
+  <transmission name="wrist_rot_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="wrist_rot_motor">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="wrist_rot">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+
+<!-- EEF -->
+  <link name="gear_assembly">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia ixx="0.002" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0" izz="0.002"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.02" rpy="0 -1.575 3.14159"/>
+      <geometry>
+        <mesh filename="package://hekateros_desc/stl/graboid/gear_assembly.stl" 
+              scale="0.001 0.001 0.001"
+        />
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.7"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="finger_R">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.005"/>
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 -1.7"/>
+      <geometry>
+        <mesh filename="package://hekateros_desc/stl/graboid/finger_R.stl" 
+              scale="0.001 0.001 0.001"
+        />
+      </geometry>
+      <material name="red">
+        <color rgba="0.8 0 0 0.9"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="finger_L">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.005"/>
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -3.141 -1.575"/>
+      <geometry>
+        <mesh filename="package://hekateros_desc/stl/graboid/finger_L.stl" 
+              scale="0.001 0.001 0.001"
+        />
+      </geometry>
+      <material name="red">
+        <color rgba="0.8 0 0 0.9"/>
+      </material>
+    </visual>
+  </link>
+
+
+  <joint name="grip" type="revolute">
+    <axis xyz="0 0 -1"/>
+    <origin xyz="0.005 -0.04 0.03" rpy="0 -1.575 0"/>
+    <parent link="gear_assembly"/>
+    <child link="finger_R"/>
+    <limit effort="100" velocity="1.0" lower="0" upper="1.57" />
+  </joint>
+
+  <transmission name="grip_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="grip_motor">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="grip">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <joint name="grip_mimic" type="revolute">
+    <axis xyz="0 0 1"/>
+    <origin xyz="0.0 0.0 0.03" rpy="0 -1.575 0"/>
+    <parent link="gear_assembly"/>
+    <child link="finger_L"/>
+    <limit effort="100" velocity="1.0" lower="0" upper="1.57" />
+    <mimic joint="grip" multiplier="1"/>
+  </joint>
+
+  <transmission name="grip_mimic_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="grip_mimic_motor">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="grip_mimic">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <joint name="eef_connect" type="fixed">
+    <origin xyz="-0.02 -0.025 0.03" rpy="0 0 1.575"/>
+    <parent link="tool_zero"/>
+    <child link="gear_assembly"/>
+  </joint>
+
+
+
+
+</robot>
+

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <include file="$(find arm_model)/launch/spawn_hek.launch"/>
+  <include file="$(find arm_model)/launch/hek_control.launch"/>
+
+</launch>
