@@ -10,6 +10,8 @@
 	<rosparam param="source_list">["robot_joint_command"]</rosparam>
   </node>
 
+  <node name="joint_command_publisher" pkg="arm_model" type="rviz_subscriber.py" output="screen"/>
+
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
   <node name="rviz" pkg="rviz" type="rviz" args=""/>
 
