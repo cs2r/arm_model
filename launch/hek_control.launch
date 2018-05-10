@@ -9,7 +9,7 @@
 				     /hek/elbow_joint_position_controller 
 				     /hek/wrist_pitch_joint_position_controller 
 				     /hek/wrist_rot_joint_position_controller 
-    				     /hek/grip_joint_position_controller
+    				 /hek/grip_joint_position_controller
 				     /hek/grip_mimic_joint_position_controller 
 				     /hek/joint_state_controller 
 				     --shutdown-timeout 3"/>
