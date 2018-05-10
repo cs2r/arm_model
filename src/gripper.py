@@ -12,7 +12,7 @@ class Gripper():
         rospy.init_node('Gripper')
         self.R_G_pub = rospy.Publisher("/R_gripper", Float64, queue_size=10)
         self.L_G_pub = rospy.Publisher("/L_gripper", Float64, queue_size=10)
-        rospy.Subscriber("/gripper", Float64, self.callback)
+        rospy.Subscriber("hek/gripper_joint_position_controller/command", Float64, self.callback)
         rospy.spin()
 
 
